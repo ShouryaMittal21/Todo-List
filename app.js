@@ -1,5 +1,6 @@
 //jshint esversion:6
 
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -13,7 +14,8 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://Shourya21:shourya21@cluster0.hq0jdcm.mongodb.net/todolistDB");
+// mongoose.connect("mongodb+srv://Shourya21:shourya21@cluster0.hq0jdcm.mongodb.net/todolistDB");
+mongoose.connect(process.env.MONGO_URL);
 
 const itemSchema = {
   name: String
@@ -134,6 +136,8 @@ app.get("/about", function(req, res){
   res.render("about");
 });
 
-app.listen(3000, function() {
+const port = process.env.port || 3000
+
+app.listen(port, function() {
   console.log("Server started on port 3000");
 });
